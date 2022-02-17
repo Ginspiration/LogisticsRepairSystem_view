@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-row style="background-color: #FFFFFF">
+    <el-row>
       <el-col :span="9">
         <span style="font-size: larger">筛选：</span>
         未维修
@@ -29,6 +29,7 @@
         </el-switch>
       </el-col>
     </el-row>
+    <br/>
     <el-table
         :data="reportData"
         border
@@ -124,15 +125,6 @@
           &&maintainerInfo.name!==null
           &&maintainerInfo.phone!==null">
           <h4>维修人信息：</h4>
-            <!--
-            {
-            "id": 1,
-            "name": "老王",
-            "phone": "12312312311",
-            "status": 0,
-            "workCount": 0
-            }
-            -->
           <p>{{ maintainerInfo.name }}</p>
             <p>联系方式: {{ maintainerInfo.phone }}</p>
             <p>最新维修时间: {{ RepairedDate }}</p>
@@ -389,5 +381,9 @@ export default {
 .description {
   border-left: 10px solid #FFFFFF;
   border-right: 10px solid #FFFFFF;
+}
+.container{
+  background-color: #FFFFFF;
+  border: 10px solid #FFFFFF;
 }
 </style>

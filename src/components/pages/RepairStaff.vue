@@ -6,6 +6,7 @@
           <el-button type="primary" @click="dialogFormVisible=true">新增员工</el-button>
         </el-col>
       </el-row>
+      <br/>
       <el-table
           :data="repairStaff"
           border
@@ -178,5 +179,8 @@ export default {
 </script>
 
 <style scoped>
-
+.container{
+  background-color: #FFFFFF;
+  border: 10px solid #FFFFFF;
+}
 </style>

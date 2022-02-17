@@ -1,9 +1,9 @@
 <template>
 <el-row>
-  <el-col :offset="0">
-    <h1>登录</h1>
+  <el-col :offset="9">
+    <h1 style="color: #FFFFFF">登录</h1>
   </el-col>
-  <el-col :span="8" :offset="7">
+  <el-col :span="8" :offset="5">
   <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
     <el-form-item label="手机号" prop="phone">
       <el-input v-model.number="ruleForm.phone"></el-input>

@@ -28,7 +28,7 @@ export default new VueRouter({
         {path: '/RepairComplete', name: '已完成维修', component: RepairComplete},
         {path: '/RepairStaff', name: '维修人员信息', component: RepairStaff},
         {path: '/AdminStaff', name: '管理员信息', component: AdminStaff},
-        {path: '/Login', name: '登录页', component: Login},
+        // {path: '/Login', name: '登录页', component: Login},
         {path: '/Index', name: '首页', component: Index}
     ]
 })
