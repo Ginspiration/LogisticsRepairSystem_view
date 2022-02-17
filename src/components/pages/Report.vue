@@ -385,5 +385,6 @@ export default {
 .container{
   background-color: #FFFFFF;
   border: 10px solid #FFFFFF;
+  border-radius: 12px;
 }
 </style>

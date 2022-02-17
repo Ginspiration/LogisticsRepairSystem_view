@@ -5,10 +5,12 @@
   </el-col>
   <el-col :span="8" :offset="5">
   <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="手机号" prop="phone">
+    <el-form-item prop="phone">
+      <span slot="label" class="span-gy">手机号</span>
       <el-input v-model.number="ruleForm.phone"></el-input>
     </el-form-item>
-    <el-form-item label="密码" prop="pass">
+    <el-form-item  prop="pass">
+      <span slot="label" class="span-gy">密码</span>
       <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item>
@@ -95,5 +97,7 @@ export default {
 </script>
 
 <style scoped>
-
+.span-gy{
+  color: #FFFFFF;
+}
 </style>

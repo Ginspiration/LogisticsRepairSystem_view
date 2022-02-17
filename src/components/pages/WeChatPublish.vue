@@ -1,7 +1,7 @@
 <template>
   <div class="background-gy">
     <el-row>
-      <el-col :offset="12" style="color: #FFFFFF;font-size: larger">
+      <el-col :span="6" :offset="12" style="color: #FFFFFF;font-size: larger">
         微信公告发布
       </el-col>
     </el-row>

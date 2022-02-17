@@ -1,26 +1,36 @@
 <template>
   <div class="bg-container">
-    <el-container style="height:1000px">
-      <el-aside width="200px">
-        <el-header>后勤报修系统</el-header>
-        <el-menu router v-if="active">
-          <el-menu-item v-for="(item,i) in menu" :key="i" :index="item.path" class="el-menu-item">
-            {{ item.name }}
-          </el-menu-item>
-        </el-menu>
-      </el-aside>
-      <el-container>
-        <el-header style="text-align: right; font-size: 12px">
-          <el-link @click="UserInfoDialog = true" v-if="">
+    <el-container style="height:900px">
+      <el-header>
+        <el-row :gutter="0">
+          <el-col :span="2">
+            <h1>后勤报修系统</h1>
+          </el-col>
+          <el-col :span="2" :offset="20" style="text-align: right">
             <br/>
-            {{ userInfo.name }}
-          </el-link>
-        </el-header>
+              <el-link @click="UserInfoDialog = true">
+                {{ userInfo.name }}
+              </el-link>
+          </el-col>
+        </el-row>
+
+
+      </el-header>
+
+      <el-container>
+        <el-aside width="200px">
+          <!--          <el-header class="el-header-left">后勤报修系统</el-header>-->
+          <el-menu router v-if="active">
+            <el-menu-item v-for="(item,i) in menu" :key="i" :index="item.path" class="el-menu-item">
+              {{ item.name }}
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
         <el-main>
           <router-view/>
         </el-main>
-        <el-footer><br/>华东交通大学理工学院</el-footer>
       </el-container>
+      <el-footer><br/>华东交通大学理工学院</el-footer>
     </el-container>
 
     <el-dialog width="300px" :title="userInfo.name" :visible.sync="UserInfoDialog" :append-to-body="true">
@@ -83,7 +93,7 @@ export default {
   },
   data() {
     return {
-      loginState: sessionStorage.length !== 0,
+      //loginState: false,
       active: true,
       UserInfoDialog: false,
       UserInfoManageDialog: false,
@@ -119,6 +129,7 @@ export default {
   },
   methods: {
     logOut() {
+      this.$data.userInfo.name = null
       sessionStorage.clear()
       this.$data.UserInfoDialog = false
       this.$data.active = false
@@ -168,6 +179,7 @@ export default {
           this.$data.userInfoManage.name = curUser.name
           this.$data.userInfoManage.phone = curUser.phone
           this.$data.userInfoManage.id = curUser.id
+          //this.$data.loginState = true
         } else {
           this.$message.error('用户信息获取失败,原因:' + response.data.respBody)
         }
@@ -184,16 +196,19 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   border: 13px solid #008752;
+  border-radius: 25px;
 }
+
 
 .el-header {
   border: 5px solid #FFFFFF;
-  text-align: center;
-  font-size: 25px;
   color: black;
   font-family: 幼圆;
   opacity: 0.8;
-  background-color: #FFFFFF
+  background-color: #FFFFFF;
+  /*text-align: right;*/
+  font-size: 12px;
+  border-radius: 12px 12px 12px 0;
 }
 
 .el-footer {
@@ -201,14 +216,17 @@ export default {
   font-size: 15px;
   color: white;
   background-color: rgba(255, 255, 255, 0.76);
+  border-radius: 12px;
 }
 
 .el-menu {
   opacity: 0.9;
   color: black;
+  border-radius: 0 0 12px 12px;
 }
 
 .el-menu-item {
   font-size: 15px;
+  border-radius: 12px;
 }
 </style>
