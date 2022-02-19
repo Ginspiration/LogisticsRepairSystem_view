@@ -1,6 +1,6 @@
 <template>
   <div class="bg-container">
-    <el-container style="height:900px">
+    <el-container style="height:1100px">
       <el-header>
         <el-row :gutter="0">
           <el-col :span="2">

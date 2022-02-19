@@ -60,6 +60,8 @@ export default {
   data() {
     return {
       //fileList: [],
+      ifUploadFile:false,
+
       file: {},
       imageUrl: '',
       submitForm: {
@@ -88,6 +90,10 @@ export default {
       return isJPG && isLt2M;
     },
     publish() {
+      if (this.$data.ifUploadFile === false){
+        this.$message.warning('你还没上传图片')
+        return
+      }
       this.$confirm('公告发布后微信用户将立即收到消息 , 并无法撤回 , 是否在检查一遍?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -129,6 +135,7 @@ export default {
       const config = {headers: {'Content-Type': 'multipart/form-data'}}
       this.axios.post("/announce/publish/upload", fd, config).then((response) => {
         if (response.status === 200) {
+          this.$data.ifUploadFile = true
           this.$message.success('图片上传成功!')
         } else {
           this.$message.error('图片上传失败!')

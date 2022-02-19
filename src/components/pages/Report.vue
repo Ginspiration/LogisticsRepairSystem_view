@@ -42,8 +42,20 @@
       </el-table-column>
       <el-table-column
           v-if="false"
-          prop="id"
-          label="id"
+          prop="repairId"
+          label="repairId"
+          width="0">
+      </el-table-column>
+      <el-table-column
+          v-if="false"
+          prop="reportId"
+          label="reportId"
+          width="0">
+      </el-table-column>
+      <el-table-column
+          v-if="false"
+          prop="repairPhone"
+          label="repairPhone"
           width="0">
       </el-table-column>
       <el-table-column
@@ -138,8 +150,8 @@
         <el-form-item label="处理方式" label-width="120px">
           <el-select v-model="dealWay" placeholder="请选择处理方式">
             <el-option label="派送维修人员" value="send"></el-option>
-            <el-option label="维修完成" value="complete"></el-option>
-            <el-option label="异常" value="error"></el-option>
+            <el-option label="维修完成" value="complete" v-if="showComplete"></el-option>
+            <el-option label="异常" value="error" v-if="showError"></el-option>
           </el-select>
           &nbsp;
           <el-select
@@ -190,6 +202,8 @@ export default {
     },
     unRepair(val) {
       if (val === true) {
+        this.$data.showError = true
+        this.$data.showComplete = false
         this.$data.repaired = false
         this.$data.repairing = false
         this.$data.errorRepair = false
@@ -199,6 +213,8 @@ export default {
     },
     repairing(val) {
       if (val === true) {
+        this.$data.showError = true
+        this.$data.showComplete = true
         this.$data.repaired = false
         this.$data.unRepair = false
         this.$data.errorRepair = false
@@ -208,6 +224,8 @@ export default {
     },
     repaired(val) {
       if (val === true) {
+        this.$data.showComplete = false
+        this.$data.showError = true
         this.$data.repairing = false
         this.$data.unRepair = false
         this.$data.errorRepair = false
@@ -217,6 +235,7 @@ export default {
     },
     errorRepair(val) {
       if (val === true) {
+        this.$data.showError = false
         this.$data.repaired = false
         this.$data.unRepair = false
         this.$data.repairing = false
@@ -235,22 +254,24 @@ export default {
       let deal = this.dealStatus
       let repairManPhone = this.maintainersForm.repairManPhone
       let reportPhone = row.phone
-      let id = row.id
-      // console.log(id)
-      // console.log(deal)
-      // console.log(repairManPhone)
-      // console.log(reportPhone)
+      let rprId = row.repairId
+      let rptId = row.reportId
+      if (repairManPhone === '' || repairManPhone === null){
+        repairManPhone = row.repairPhone
+      }
       this.axios.post("/repair/dealWithReport",
           {
-            "id": id,
+            "reportId": rptId,
+            "repairId": rprId,
             "reportPhone": reportPhone,
             "repairPhone": repairManPhone,
             "status": deal
           }
       ).then((response) => {
         if (response.data.status === 200) {
-          this.$message.success('处理成功')
+          this.$message.success(response.data.respBody)
           this.maintainersForm.maintainers = response.data.respBody
+          this.maintainersForm.repairManPhone = ''
           this.dialogFormVisible = false
           this.getReportInfo(this.$data.currentPage, this.$data.pageSize, this.$data.chooseStatus)
           this.$data.maintainerInfo = null
@@ -288,7 +309,7 @@ export default {
       this.imgData.imgUrl = url
       //console.log(this.imgData.imgUrl)
       this.imgData.bigImg = [url]
-      this.getRepairInfoById(row.id)
+      this.getRepairInfoById(row.repairId)
     },
     getRepairInfoById(id) {
       console.log(id)
@@ -312,7 +333,7 @@ export default {
           //this.$message.success('get report data success')
 
           this.reportData = response.data.respBody.records;
-
+          console.log(response.data.respBody.records)
           this.total = response.data.respBody.total
           this.pages = response.data.respBody.pages
 
@@ -336,6 +357,11 @@ export default {
 
   data() {
     return {
+      //显示维修完成
+      showComplete:false,
+      //显示异常
+      showError:true,
+
       reportData: [{}],
       currentPage: 1,  //初始页
       pageSize: 5,    //每页的多少条
