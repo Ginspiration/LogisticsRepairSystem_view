@@ -1,25 +1,29 @@
 <template>
-<el-row>
-  <el-col :offset="9">
-    <h1 style="color: #FFFFFF">登录</h1>
-  </el-col>
-  <el-col :span="8" :offset="5">
-  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item prop="phone">
-      <span slot="label" class="span-gy">手机号</span>
-      <el-input v-model.number="ruleForm.phone"></el-input>
-    </el-form-item>
-    <el-form-item  prop="pass">
-      <span slot="label" class="span-gy">密码</span>
-      <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
-    </el-form-item>
-  </el-form>
-  </el-col>
-</el-row>
+<div>
+  <el-row>
+    <el-col :span="8" :offset="9">
+      <h1 style="color: #FFFFFF">登录</h1>
+    </el-col>
+  </el-row>
+  <el-row>
+    <el-col :span="8" :offset="5">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item prop="phone">
+          <span slot="label" class="span-gy">手机号</span>
+          <el-input v-model.number="ruleForm.phone"></el-input>
+        </el-form-item>
+        <el-form-item  prop="pass">
+          <span slot="label" class="span-gy">密码</span>
+          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+  </el-row>
+</div>
 </template>
 
 <script>
