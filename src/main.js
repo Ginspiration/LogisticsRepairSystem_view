@@ -16,3 +16,6 @@ new Vue({
   router,//应用路由
   render: h => h(App),
 }).$mount('#app')
+
+import './config/axios'
+Vue.prototype.$ajax = axios

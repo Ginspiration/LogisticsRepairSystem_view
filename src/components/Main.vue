@@ -87,7 +87,7 @@ export default {
   created() {
     if (this.$route.path === '/') {
       //console.log("this.$route.path:"+this.$route.path)
-      this.getUserInfo()
+      //this.getUserInfo()
       this.active = false
     }
   },
@@ -133,6 +133,15 @@ export default {
       sessionStorage.clear()
       this.$data.UserInfoDialog = false
       this.$data.active = false
+
+      this.axios.post("/admin/loginOut", {}).then((response) => {
+        if (response.data.status === 200) {
+          this.$message.success(response.data.respBody)
+        } else {
+          this.$message.error('用户信息获取失败,原因:' + response.data.respBody)
+        }
+      })
+
       this.$router.push({path: '/'})
     },
     updateUserInfo() {
@@ -168,6 +177,12 @@ export default {
     },
     getUserInfo() {
       this.axios.post("/admin/getUserInfo", {}).then((response) => {
+        if (response.data.respBody == null){
+          this.$data.active = false
+          this.$data.UserInfoDialog = false
+          this.$router.push({path:'/'})
+          return
+        }
         if (response.data.status === 200) {
           let curUser = response.data.respBody
           sessionStorage.setItem("curUserName", curUser.name)
