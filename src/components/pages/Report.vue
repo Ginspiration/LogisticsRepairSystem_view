@@ -65,7 +65,7 @@
       </el-table-column>
       <el-table-column
           prop="number"
-          label="学号/教工号"
+          label="学号"
           width="120">
       </el-table-column>
       <el-table-column
