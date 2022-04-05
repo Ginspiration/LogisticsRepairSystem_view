@@ -342,7 +342,7 @@ export default {
       this.getRepairInfoById(row.repairId)
     },
     getRepairInfoById(id) {
-      console.log(id)
+      //console.log(id)
       this.axios.post("/repair/getRepairInfoById",
           {"id": id}
       ).then((response) => {
@@ -363,7 +363,7 @@ export default {
           //this.$message.success('get report data success')
 
           this.reportData = response.data.respBody.records;
-          console.log(response.data.respBody.records)
+          //console.log(response.data.respBody.records)
           this.total = response.data.respBody.total
           this.pages = response.data.respBody.pages
 

@@ -120,6 +120,9 @@ export default {
       }).then((response) => {
         if (response.status === 200) {
           this.$message.success('发布成功,请微信公众查收!')
+          setTimeout(() => {
+            this.$router.replace({path:'/Index'})
+          }, 1000);
         } else {
           this.$message.error('发布失败!')
         }

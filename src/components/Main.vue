@@ -1,6 +1,6 @@
 <template>
   <div class="bg-container">
-    <el-container style="height:1100px">
+    <el-container>
       <el-header>
         <el-row :gutter="0">
           <el-col :span="2">
@@ -111,6 +111,7 @@ export default {
         id: sessionStorage.getItem("currUserId"),
       },
       menu: [
+        {path:'/Index',name: '首页'},
         {path: '/WeChatPublish', name: '微信公告发布'},
         {path: '/Report', name: '维修上报'},
         {path: '/RepairStaff', name: '维修人员信息'},
