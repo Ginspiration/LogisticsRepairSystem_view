@@ -8,9 +8,9 @@
           </el-col>
           <el-col :span="2" :offset="20" style="text-align: right">
             <br/>
-              <el-link @click="UserInfoDialog = true">
-                {{ userInfo.name }}
-              </el-link>
+            <el-link @click="UserInfoDialog = true">
+              {{ userInfo.name }}
+            </el-link>
           </el-col>
         </el-row>
 
@@ -28,6 +28,7 @@
         </el-aside>
         <el-main>
           <router-view/>
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         </el-main>
       </el-container>
       <el-footer><br/>华东交通大学理工学院</el-footer>
@@ -85,7 +86,7 @@
 export default {
   name: "Main",
   created() {
-    if (this.$route.path === '/') {
+    if (this.$route.path === '/' || this.$route.path === '/SuperLogin'||this.$route.path === '/SuperAdminStaff') {
       //console.log("this.$route.path:"+this.$route.path)
       //this.getUserInfo()
       this.active = false
@@ -111,18 +112,19 @@ export default {
         id: sessionStorage.getItem("currUserId"),
       },
       menu: [
-        {path:'/Index',name: '首页'},
+        {path: '/Index', name: '首页'},
         {path: '/WeChatPublish', name: '微信公告发布'},
         {path: '/Report', name: '维修上报'},
         {path: '/RepairStaff', name: '维修人员信息'},
         {path: '/AdminStaff', name: '管理员信息'}
-      ]
+      ],
+      //superAdmin:'',
     }
   },
   watch: {
     // eslint-disable-next-line no-unused-vars
     $route(to, from) {
-      if (to.path !== '/') {
+      if (to.path !== '/' && to.path !== '/SuperLogin') {
         this.active = true
         this.getUserInfo()
       }
@@ -178,10 +180,17 @@ export default {
     },
     getUserInfo() {
       this.axios.post("/admin/getUserInfo", {}).then((response) => {
-        if (response.data.respBody == null){
+        if (response.data.status === 110){
           this.$data.active = false
           this.$data.UserInfoDialog = false
-          this.$router.push({path:'/'})
+          console.log(response.data.respBody)
+          //this.$data.superAdmin = response.data.respBody
+          return;
+        }
+        if (response.data.respBody == null) {
+          this.$data.active = false
+          this.$data.UserInfoDialog = false
+          this.$router.push({path: '/'})
           return
         }
         if (response.data.status === 200) {

@@ -14,6 +14,8 @@ import Login from "@/components/pages/admin/Login";
 import Index from "@/components/pages/admin/Index";
 import Main from "@/components/Main";
 import Repairing from "@/components/pages/Repairing";
+import SuperLogin from "@/components/pages/superAdmin/SuperLogin";
+import SuperAdminStaff from "@/components/pages/superAdmin/SuperAdminStaff";
 
 Vue.use(VueRouter)//第二步,指定使用这个插件
 
@@ -29,6 +31,8 @@ export default new VueRouter({
         {path: '/RepairStaff', name: '维修人员信息', component: RepairStaff},
         {path: '/AdminStaff', name: '管理员信息', component: AdminStaff},
         // {path: '/Login', name: '登录页', component: Login},
-        {path: '/Index', name: '首页', component: Index}
+        {path: '/Index', name: '首页', component: Index},
+        {path: '/SuperLogin', name: '超级管理员登录', component: SuperLogin},
+        {path: '/SuperAdminStaff', name: '超级管理员首页', component: SuperAdminStaff},
     ]
 })

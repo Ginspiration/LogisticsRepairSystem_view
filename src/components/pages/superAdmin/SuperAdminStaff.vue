@@ -3,12 +3,15 @@
     <div class="container">
       <el-row style="background-color: #FFFFFF">
         <el-col :span="4">
-          <el-button type="primary" @click="dialogFormVisible=true">新增员工</el-button>
+          <el-button type="primary" @click="dialogFormVisible=true">新增管理员</el-button>
+        </el-col>
+        <el-col :span="4" :offset="16">
+            <el-button type="danger" @click="logOut">退出超级管理员</el-button>
         </el-col>
       </el-row>
       <br/>
       <el-table
-          :data="repairStaff"
+          :data="adminStaff"
           border
           style="width: 100%">
         <el-table-column
@@ -21,23 +24,14 @@
         <el-table-column
             prop="name"
             label="姓名"
-            width="200">
+            width="400">
         </el-table-column>
         <el-table-column
             prop="phone"
             label="联系方式"
-            width="200">
+            width="400">
         </el-table-column>
-        <el-table-column
-            prop="statusStr"
-            label="状态"
-            width="200">
-        </el-table-column>
-        <el-table-column
-            prop="workCount"
-            label="出工次数"
-            width="200">
-        </el-table-column>
+
         <el-table-column
             fixed="right"
             label="操作"
@@ -50,17 +44,19 @@
             </el-popconfirm>
           </template>
         </el-table-column>
+
       </el-table>
-      <el-dialog title="新增/修改员工" :visible.sync="dialogFormVisible"
+
+      <el-dialog title="新增/修改管理员" :visible.sync="dialogFormVisible"
                  :append-to-body="true"
                  :show-close="false"
                  :close-on-click-modal="false">
-        <el-form ref="form" :model="addStaffForm" label-width="80px">
+        <el-form ref="form" :model="addAdminForm" label-width="80px">
           <el-form-item label="姓名">
-            <el-input v-model="addStaffForm.name" :disabled="staffNameDisable"></el-input>
+            <el-input v-model="addAdminForm.name" :disabled="adminNameDisable"></el-input>
           </el-form-item>
           <el-form-item label="手机号">
-            <el-input v-model="addStaffForm.phone"></el-input>
+            <el-input v-model="addAdminForm.phone"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="staffSubmit">确定</el-button>
@@ -69,22 +65,23 @@
         </el-form>
       </el-dialog>
     </div>
+    <br/><br/><br/><br/><br/><br/>
   </div>
 </template>
 
 <script>
 export default {
-  name: "RepairStaff",
+  name: "AdminStaffManage",
   created() {
-    this.getAllMaintainerInfo()
+    this.getAllAdminInfo()
   },
   methods: {
-    getAllMaintainerInfo() {
-      this.axios.post("/maintainer/getAllMaintainerInfo"
+    getAllAdminInfo() {
+      this.axios.post("/superAdmin/admin/getAllAdmin"
       ).then((response) => {
         if (response.data.status === 200) {
           //this.$message.success('get maintainers data success')
-          this.$data.repairStaff = response.data.respBody
+          this.$data.adminStaff = response.data.respBody
           //console.log(response.data.respBody)
         } else {
           this.$message.error('数据获取失败,原因:' + response.data.respBody)
@@ -92,39 +89,41 @@ export default {
       })
     },
     staffSubmit() {
-      let isAdd = this.$data.staffNameDisable
-      let this_ = this.$data.addStaffForm
-      if (!isAdd) {
-        this.$data.staffNameDisable = false
-        this.axios.post("/maintainer/saveOrUpdate", {
+      let isAdd = this.$data.adminNameDisable
+      let this_ = this.$data.addAdminForm
+      if (!isAdd) {//新增
+        this.$data.adminNameDisable = false
+        //save
+        this.axios.post("/superAdmin/admin/saveOrUpdate", {
               "name": this_.name,
               "phone": this_.phone
             }
         ).then((response) => {
           if (response.data.status === 200) {
             this.$message.success(response.data.respBody)
-            this.$data.addStaffForm.phone = ''
-            this.$data.addStaffForm.name = ''
-            this.getAllMaintainerInfo()
+            this.$data.addAdminForm.phone = ''
+            this.$data.addAdminForm.name = ''
+            this.getAllAdminInfo()
           } else {
             this.$message.error('数据获取失败,原因:' + response.data.respBody)
           }
         })
         this.$data.dialogFormVisible = false
-      } else {
+      //update
+      } else {//修改
         let row = this.$data.updateRow
-        this.axios.post("/maintainer/saveOrUpdate", {
+        this.axios.post("/superAdmin/admin/saveOrUpdate", {
               "id": row.id,
               "phone": this_.phone
             }
         ).then((response) => {
           if (response.data.status === 200) {
             this.$message.success(response.data.respBody)
-            this.$data.addStaffForm.phone = ''
-            this.$data.addStaffForm.name = ''
+            this.$data.addAdminForm.phone = ''
+            this.$data.addAdminForm.name = ''
             this.$data.updateRow = ''
-            this.$data.staffNameDisable = false
-            this.getAllMaintainerInfo()
+            this.$data.adminNameDisable = false
+            this.getAllAdminInfo()
           } else {
             this.$message.error('数据获取失败,原因:' + response.data.respBody)
           }
@@ -133,41 +132,51 @@ export default {
       }
     },
     update(row) {
-      this.$data.staffNameDisable = true
-      this.$data.addStaffForm.name = row.name
-      this.$data.addStaffForm.phone = row.phone
+      this.$data.adminNameDisable = true
+      this.$data.addAdminForm.name = row.name
+      this.$data.addAdminForm.phone = row.phone
       this.$data.updateRow = row
       this.$data.dialogFormVisible = true
     },
     updateOrAddCancel(){
-      this.$data.staffNameDisable = false
-      this.$data.addStaffForm.name = ''
-      this.$data.addStaffForm.phone = ''
+      this.$data.adminNameDisable = false
+      this.$data.addAdminForm.name = ''
+      this.$data.addAdminForm.phone = ''
       this.$data.updateRow = ''
       this.$data.dialogFormVisible = false
     },
     del(row) {
       console.log(row.id)
-      this.axios.post("/maintainer/del", {
-        "id": row.id,
+      this.axios.post("/superAdmin/admin/del", {
+            "id": row.id,
           }
       ).then((response) => {
         if (response.data.status === 200) {
           this.$message.success(response.data.respBody)
-          this.getAllMaintainerInfo()
+          this.getAllAdminInfo()
         } else {
           this.$message.error('数据获取失败,原因:' + response.data.respBody)
         }
       })
     },
+    logOut() {
+      this.axios.post("/superAdmin/loginOut", {}).then((response) => {
+        if (response.data.status === 200) {
+          this.$message.success(response.data.respBody)
+        } else {
+          this.$message.error('用户信息获取失败,原因:' + response.data.respBody)
+        }
+      })
+      this.$router.push({path: '/'})
+    },
   },
   data() {
     return {
-      repairStaff: [],
-      staffNameDisable: false,
+      adminStaff: [],
+      adminNameDisable: false,
       /*add staff*/
       dialogFormVisible: false,
-      addStaffForm: {
+      addAdminForm: {
         name: '',
         phone: ''
       },
@@ -183,5 +192,7 @@ export default {
   background-color: #FFFFFF;
   border: 10px solid #FFFFFF;
   border-radius: 12px;
+  width: 1300px;
+  position: absolute;left: 120px;
 }
 </style>

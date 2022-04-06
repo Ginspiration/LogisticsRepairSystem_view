@@ -19,6 +19,7 @@
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button class="el-button--danger" type="primary" @click="toSuperLogin()">超级管理员</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -72,6 +73,9 @@ export default {
     };
   },
   methods: {
+    toSuperLogin(){
+      this.$router.push({path:'/SuperLogin'})
+    },
     submitForm(formName) {
       let _this = this;
       this.$refs[formName].validate((valid) => {
